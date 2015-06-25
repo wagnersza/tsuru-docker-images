@@ -1,4 +1,5 @@
-FROM tsuru/base:latest
+FROM ubuntu:14.04
+
 MAINTAINER Wagner Souza <wagnersza@gmail.com>
 
 RUN         apt-get update && apt-get install -y redis-server  unzip libzmq-dev libevent-dev python-dev python-virtualenv

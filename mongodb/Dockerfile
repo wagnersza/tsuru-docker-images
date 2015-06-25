@@ -1,4 +1,4 @@
-FROM tsuru/base:latest
+FROM ubuntu:14.04
 
 MAINTAINER Wagner Souza <wagnersza@gmail.com>
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
