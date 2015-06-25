@@ -8,6 +8,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "puppetlabs/ubuntu-14.04-64-puppet"
 
+  config.vm.provision "shell",
+    inline: "wget -qO- https://get.docker.com/ | sh ; sudo usermod -aG docker vagrant"
+
   config.vm.define :default do |tsuru|
     tsuru.vm.hostname = 'tsuru'
     tsuru.vm.network "private_network", ip: "192.168.33.10"
@@ -16,6 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ["modifyvm", :id, "--memory", "512"]
       vb.customize ["modifyvm", :id, "--cpus", "2"]
     end
+
   end
 
 end
