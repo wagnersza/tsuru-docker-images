@@ -86,9 +86,9 @@
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock progrium/registrator consul://`docker-machine ip docker03`:8500
   ```
 ## Start tsuru tears
-
-eval $(docker-machine env --swarm swarm-master)
-
+  ```bash
+  eval $(docker-machine env --swarm swarm-master)
+  ```
 ### MongoDB (1)
   ```bash
   $ docker run -d --name mongodb -h mongodb -p 27017:27017 mongo
