@@ -5,6 +5,7 @@ debug: true
 admin-team: admin
 log:
   file: /var/log/tsuru.log
+  disable-syslog: true
 
 database:
   url: {{range service "mongo"}}{{.Address}}:{{.Port}}{{end}}
