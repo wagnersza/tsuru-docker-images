@@ -87,27 +87,29 @@
   ```
 ## Start tsuru tears
 
-### MongoDB
+eval $(docker-machine env --swarm swarm-master)
+
+### MongoDB (1)
   ```bash
-  $ docker run -d --name mongodb -h mongodb -p 27017:27017 -v /data/db:/data/db mongo
+  $ docker run -d --name mongodb -h mongodb -p 27017:27017 mongo
   ```
-### Redis
+### Redis (1)
   ```bash
-  $ docker run -d --name redis -h redis -p 6376:6376 redis
+  $ docker run -d --name redis-master -h redis-master -p 6379:6379 redis
   ```
-### Tsuru API
+### Docker Registry (n)
+  ```bash
+  $ docker run -d --name registry -h registry -p 5000:5000 registry
+  ```
+### Router (n)
+  ```bash
+  $ docker run -d --name router -h router -p 80:8080 wagnersza/router
+  ```
+### Gandalf (1)
+  ```bash
+  $ docker run -d --name gandalf -h gandalf -p 8081:8081 -v /data/gandalf:/data/gandalf wagnersza/gandalf
+  ```
+### Tsuru API (n)
   ```bash
   $ docker run -d --name api -h api -p 8080:8080 -v /data/api:/data/api wagnersza/tsuru-api
-  ```
-### Docker Registry
-```bash
-  $ docker run -d --name registry -h registry -e STORAGE_PATH=/data/registry -p 5000:5000 -v /data/registry:/data/registry registry
-  ```
-### Router
-```bash
-  $ docker run -d --name api -h api -p 80:8080 -v wagnersza/router
-  ```
-### Gandalf
-```bash
-  $ docker run -d --name gandalf -h gandalf -p 8081:8081 -v /data/gandalf:/data/gandalf wagnersza/gandalf
   ```
