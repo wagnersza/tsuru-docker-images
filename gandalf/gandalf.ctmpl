@@ -24,7 +24,7 @@ authorized-keys-path: /home/git/.ssh/authorized_keys
 
 # Host is the host used to build repositories URL. If you want Gandalf to be
 # accessible from other hosts, you need to change this option.
-host: {{env "HOST_IP"}}.nip.io
+host: gandalf.service.consul
 
 # readonly-host is the host used to build ready-only URLs for repositories.
 # It is optional, uncomment and define this setting if you want to make it
@@ -32,7 +32,7 @@ host: {{env "HOST_IP"}}.nip.io
 # readonly-host: localhost
 
 # Address that the Gandalf API server will bind.
-bind: localhost:8000
+bind: 0.0.0.0:8000
 
 # User that manages repositories in the file system.
 uid: git
