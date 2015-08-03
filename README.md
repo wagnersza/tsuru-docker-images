@@ -89,27 +89,27 @@
   ```bash
   eval $(docker-machine env --swarm swarm-master)
   ```
-### MongoDB (1)
+### MongoDB (single instance)
   ```bash
   $ docker run -d --name mongodb -h mongodb -p 27017:27017 mongo
   ```
-### Redis (1)
+### Redis (single instance)
   ```bash
   $ docker run -d --name redis-master -h redis-master -p 6379:6379 redis
   ```
-### Docker Registry (n)
+### Docker Registry (multiple instances)
   ```bash
   $ docker run -d --name registry -h registry -p 5000:5000 registry
   ```
-### Router (n)
+### Router (multiple instances)
   ```bash
   $ docker run -d --name router -h router -p 80:8080 wagnersza/router
   ```
-### Gandalf (1)
+### Gandalf (single instance)
   ```bash
   $ docker run -d --name gandalf -h gandalf -p 8000:8000 wagnersza/gandalf
   ```
-### Tsuru API (n)
+### Tsuru API (multiple instances)
   ```bash
   $ docker run -d --name api -h api -p 8080:8080 -v /data/api:/data/api wagnersza/tsuru-api
   ```
