@@ -188,8 +188,7 @@ dir /var/lib/redis
 # different interval, or to listen to another port, and so on.
 #
 # slaveof <masterip> <masterport>
-slaveof {{range service "redis"}}{{$service:=.Name}}{{range .Tags}}{{if eq . "master" }}{{range service $service}}{{.Address}}{{end}}{{end}}{{end}}{{end}}
- {{range service "redis"}}{{$service:=.Name}}{{range .Tags}}{{if eq . "master" }}{{range service $service}}{{.Port}}{{end}}{{end}}{{end}}{{end}}
+slaveof {{range service "redis"}}{{.Address}} {{.Port}}{{end}}
 
 # If the master is password protected (using the "requirepass" configuration
 # directive below) it is possible to tell the slave to authenticate before
