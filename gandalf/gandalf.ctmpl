@@ -5,7 +5,7 @@ bin-path: /usr/bin/gandalf-ssh
 # using the "gandalf" database. Uncomment and change to customize.
 #
 database:
-  url: {{range service "mongodb"}}{{.Address}}:{{.Port}}{{end}}
+  url: {{range service "mongo"}}{{.Address}}:{{.Port}}{{end}}
   name: gandalf
 
 # Git configuration.
