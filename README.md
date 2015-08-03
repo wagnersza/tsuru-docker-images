@@ -107,7 +107,7 @@
   ```
 ### Gandalf (1)
   ```bash
-  $ docker run -d --name gandalf -h gandalf -p 8081:8081 -v /data/gandalf:/data/gandalf wagnersza/gandalf
+  $ docker run -d --name gandalf -h gandalf -p 8000:8000 wagnersza/gandalf
   ```
 ### Tsuru API (n)
   ```bash
