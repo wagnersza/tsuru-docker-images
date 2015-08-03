@@ -21,7 +21,7 @@ ADD ./pre-receive /home/git/bare-template/hooks/pre-receive
 ADD ./circus.ini /tmp/circus.ini
 
 RUN chown -R git:git /var/lib/gandalf
-RUN chown -R git:git /home/git/*
+RUN chown -R git:git /home/git
 RUN chmod +x /home/git/bare-template/hooks/pre-receive
 RUN chmod +x /etc/init.d/gandalf
 
