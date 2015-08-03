@@ -1,6 +1,6 @@
 {{range ls "service/api"}}{{.Value}}{{else}}
 listen: "0.0.0.0:8080"
-host: http://{{env "HOST_IP"}}:8080
+host: http://api-8080.service.consul:8080
 debug: true
 admin-team: admin
 log:
@@ -21,7 +21,7 @@ auth:
 provisioner: docker
 
 hipache:
-  domain: {{env "HOST_IP"}}.nip.io
+  domain: router-80.service.consul
   redis-server: {{range service "redis"}}{{$service:=.Name}}{{range .Tags}}{{if eq . "master" }}{{range service $service}}{{.Address}}:{{.Port}}{{end}}{{end}}{{end}}{{end}}
 
 queue: redis
@@ -30,7 +30,7 @@ redis-queue:
   port: {{range service "redis"}}{{$service:=.Name}}{{range .Tags}}{{if eq . "master" }}{{range service $service}}{{.Port}}{{end}}{{end}}{{end}}{{end}}
 docker:
   collection: docker_containers
-  registry: {{env "HOST_IP"}}:5000
+  registry: registry-5000.service.consul:5000
   repository-namespace: tsuru
   router: hipache
   deploy-cmd: /var/lib/tsuru/deploy
