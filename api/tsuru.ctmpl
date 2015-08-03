@@ -7,7 +7,7 @@ log:
   file: /var/log/tsuru.log
 
 database:
-  url: {{range service "mongodb"}}{{.Address}}:{{.Port}}{{end}}
+  url: {{range service "mongo"}}{{.Address}}:{{.Port}}{{end}}
   name: tsurudb
 
 repo-manager: none

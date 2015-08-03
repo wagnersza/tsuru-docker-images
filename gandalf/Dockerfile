@@ -15,12 +15,14 @@ EXPOSE 8000
 VOLUME	/data/gandalf
 
 ADD ./gandalf.ctmpl /tmp/gandalf.ctmpl
+ADD ./git_bash_profile.ctmpl /tmp/git_bash_profile.ctmpl
 ADD ./gandalf /etc/init.d/gandalf
-RUN chmod +x /etc/init.d/gandalf
+ADD ./pre-receive /home/git/bare-template/hooks/pre-receive
 ADD ./circus.ini /tmp/circus.ini
 
 RUN chown -R git:git /var/lib/gandalf
 RUN chown -R git:git /home/git/*
 RUN chmod +x /home/git/bare-template/hooks/pre-receive
+RUN chmod +x /etc/init.d/gandalf
 
 ENTRYPOINT /tmp/circus/bin/circusd /tmp/circus.ini --log-output /var/log/circus.log
