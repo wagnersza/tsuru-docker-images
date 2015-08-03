@@ -13,9 +13,9 @@
         "tcpTimeout": 30,
         "httpKeepAlive": true{{end}}
     },
-    "redisHost": {{range service "redis"}}{{$service:=.Name}}{{range .Tags}}{{if eq . "master" }}{{range service $service}}"{{.Address}}"{{end}}{{end}}{{end}}{{end}},
+    "redisHost": localhost,
     "redisPort": 6379,
-    "redisMasterHost": {{range service "redis"}}{{$service:=.Name}}{{range .Tags}}{{if eq . "master" }}{{range service $service}}"{{.Address}}"{{end}}{{end}}{{end}}{{end}},
-    "redisMasterPort": {{range service "redis"}}{{$service:=.Name}}{{range .Tags}}{{if eq . "master" }}{{range service $service}}{{.Port}}{{end}}{{end}}{{end}}{{end}}
+    "redisMasterHost": {{range service "redis"}}{{.Address}}{{end}},
+    "redisMasterPort": {{range service "redis"}}{{.Port}}{{end}}
 }
 {{end}}
