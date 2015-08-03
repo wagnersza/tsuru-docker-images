@@ -2,7 +2,7 @@
 
 ## Install first consul machine
   ```bash
-  $ docker-machine create --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox consul01
+  $ docker-machine create --virtualbox-memory "512" --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox consul01
   $ eval "$(docker-machine env consul01)"
   $ docker run -d -v /data/consul:/data/consul \
       -p 8300:8300 \
