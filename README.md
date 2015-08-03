@@ -2,6 +2,7 @@
 
 ## Install first consul machine
   ```bash
+  $ docker-machine create --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox consul01
   $ eval "$(docker-machine env consul01)"
   $ docker run -d -v /data/consul:/data/consul \
       -p 8300:8300 \
@@ -15,7 +16,7 @@
       progrium/consul -server -advertise `docker-machine ip consul01` -bootstrap
   ```
 
-## Insltall docker machines
+## Insltall swarm machines
   ```bash
   $ docker-machine create --swarm --swarm-discovery consul://`docker-machine ip consul01`:8500/swarm --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox docker01
   $ docker-machine create --swarm --swarm-discovery consul://`docker-machine ip consul01`:8500/swarm --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox docker02
