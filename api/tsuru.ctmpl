@@ -38,7 +38,7 @@ docker:
   segregate: true
   cluster:
     storage: mongodb
-    mongo-url: {{range service "mongodb"}}{{.Address}}:{{.Port}}{{end}}
+    mongo-url: {{range service "mongo"}}{{.Address}}:{{.Port}}{{end}}
     mongo-database: dockercluster
   run-cmd:
     bin: /var/lib/tsuru/start
