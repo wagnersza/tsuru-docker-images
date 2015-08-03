@@ -13,9 +13,9 @@
         "tcpTimeout": 30,
         "httpKeepAlive": true{{end}}
     },
-    "redisHost": localhost,
+    "redisHost": "127.0.0.1",
     "redisPort": 6379,
-    "redisMasterHost": {{range service "redis"}}{{.Address}}{{end}},
+    "redisMasterHost": "{{range service "redis"}}{{.Address}}{{end}}",
     "redisMasterPort": {{range service "redis"}}{{.Port}}{{end}}
 }
 {{end}}
