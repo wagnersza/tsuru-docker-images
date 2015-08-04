@@ -5,6 +5,7 @@
   $ docker-machine create --virtualbox-memory "512" --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox consul01
   $ eval "$(docker-machine env consul01)"
   $ docker run -d -v /data/consul:/data/consul \
+      --restart=yes \
       -p 8300:8300 \
       -p 8301:8301 \
       -p 8301:8301/udp \
@@ -28,6 +29,7 @@
   ```bash
   $ eval "$(docker-machine env swarm-master)"
   $ docker run -d -v /data/consul:/data/consul \
+      --restart=yes \
       -p 8300:8300 \
       -p 8301:8301 \
       -p 8301:8301/udp \
@@ -38,11 +40,14 @@
       -p 53:53/udp \
       progrium/consul -server -advertise `docker-machine ip swarm-master` -join `docker-machine ip consul01`
 
-  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock progrium/registrator -resync 3 consul://`docker-machine ip swarm-master`:8500
+  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
+      --restart=yes \
+      progrium/registrator -resync 3 consul://`docker-machine ip swarm-master`:8500
   ```
   ```bash
   $ eval "$(docker-machine env docker01)"
   $ docker run -d -v /data/consul:/data/consul \
+    --restart=yes \
     -p 8300:8300 \
     -p 8301:8301 \
     -p 8301:8301/udp \
@@ -53,11 +58,14 @@
     -p 53:53/udp \
     progrium/consul -server -advertise `docker-machine ip docker01` -join `docker-machine ip consul01`
 
-  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock progrium/registrator consul://`docker-machine ip docker01`:8500
+  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock
+      --restart=yes \
+      progrium/registrator consul://`docker-machine ip docker01`:8500
   ```
   ```bash
   $ eval "$(docker-machine env docker02)"
   $ docker run -d -v /data/consul:/data/consul \
+      --restart=yes \
       -p 8300:8300 \
       -p 8301:8301 \
       -p 8301:8301/udp \
@@ -68,11 +76,14 @@
       -p 53:53/udp \
       progrium/consul -server -advertise `docker-machine ip docker02` -join `docker-machine ip consul01`
 
-  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock progrium/registrator consul://`docker-machine ip docker02`:8500
+  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock
+      --restart=yes \
+      progrium/registrator consul://`docker-machine ip docker02`:8500
   ```
   ```bash
   $ eval "$(docker-machine env docker03)"
   $ docker run -d -v /data/consul:/data/consul \
+    --restart=yes \
     -p 8300:8300 \
     -p 8301:8301 \
     -p 8301:8301/udp \
@@ -83,7 +94,9 @@
     -p 53:53/udp \
     progrium/consul -server -advertise `docker-machine ip docker03` -join `docker-machine ip consul01`
 
-  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock progrium/registrator consul://`docker-machine ip docker03`:8500
+  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock
+      --restart=yes \
+      progrium/registrator consul://`docker-machine ip docker03`:8500
   ```
 ## Start tsuru tears
   ```bash
