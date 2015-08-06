@@ -37,17 +37,11 @@
       -p 8400:8400 \
       -p 8500:8500 \
       -p 53:53/udp \
+      -e "SERVICE_NAME=consul" \
       progrium/consul -server -advertise `docker-machine ip docker01` -join `docker-machine ip consul01`
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=always \
-      -e SERVICE_8300_IGNORE=true \
-      -e SERVICE_8301_IGNORE=true \
-      -e SERVICE_8302_IGNORE=true \
-      -e SERVICE_8400_IGNORE=true \
-      -e SERVICE_8500_IGNORE=true \
-      -e SERVICE_53_IGNORE=true \
-      -e SERVICE_3376_IGNORE=true \
       gliderlabs/registrator consul://`docker-machine ip docker01`:8500
   ```
   ```bash
@@ -62,17 +56,11 @@
       -p 8400:8400 \
       -p 8500:8500 \
       -p 53:53/udp \
+      -e "SERVICE_NAME=consul" \
       progrium/consul -server -advertise `docker-machine ip docker02` -join `docker-machine ip consul01`
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=always \
-      -e SERVICE_8300_IGNORE=true \
-      -e SERVICE_8301_IGNORE=true \
-      -e SERVICE_8302_IGNORE=true \
-      -e SERVICE_8400_IGNORE=true \
-      -e SERVICE_8500_IGNORE=true \
-      -e SERVICE_53_IGNORE=true \
-      -e SERVICE_3376_IGNORE=true \
       gliderlabs/registrator consul://`docker-machine ip docker02`:8500
   ```
   ```bash
@@ -87,6 +75,7 @@
     -p 8400:8400 \
     -p 8500:8500 \
     -p 53:53/udp \
+    -e "SERVICE_NAME=consul" \
     progrium/consul -server -advertise `docker-machine ip docker03` -join `docker-machine ip consul01`
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
