@@ -7,6 +7,10 @@ log:
   file: /var/log/tsuru.log
   disable-syslog: true
 
+auth:
+  user-registration: {{key "tsuru/auth/user-registration" | regexReplaceAll "^$" "true" }}
+  scheme: {{key "tsuru/auth/scheme" | regexReplaceAll "^$" "native" }}
+
 database:
   url: {{range service "mongo"}}{{.Address}}:{{.Port}}{{end}}
   name: {{key "tsuru/database/name" | regexReplaceAll "^$" "tsurudb" }}
@@ -16,19 +20,14 @@ git:
   unit-repo: {{key "tsuru/git/unit-repo" | regexReplaceAll "^$" "/home/application/current" }}
   api-server: {{range service "gandalf"}}{{.Address}}:{{.Port}}{{end}}
 
-auth:
-  user-registration: {{key "tsuru/auth/user-registration" | regexReplaceAll "^$" "true" }}
-  scheme: {{key "tsuru/auth/scheme" | regexReplaceAll "^$" "native" }}
+pubsub:
+    redis-host: {{range service "redis"}}{{.Address}}:{{.Port}}{{else}}{{key "tsuru/pubsub/redis-host"}}{{end}}
+    redis-port: 6379
+queue:
+    mongo-url: {{range service "mongo"}}{{.Address}}:{{.Port}}{{end}}
+    mongo-database: queuedb
+
 provisioner: docker
-
-hipache:
-  domain: router.service.consul
-  redis-server: {{range service "redis"}}{{.Address}}:{{.Port}}{{else}}{{key "tsuru/hipache/redis-server"}}{{end}}
-
-queue: redis
-redis-queue:
-  host: {{range service "redis"}}{{.Address}}{{else}}{{key "tsuru/redis-queue/host"}}{{end}}
-  port: {{range service "redis"}}{{.Port}}{{else}}{{key "tsuru/redis-queue/port"}}{{end}}
 docker:
   collection: docker_containers
   registry: registry.service.consul:5000
@@ -46,3 +45,9 @@ docker:
   ssh:
     add-key-cmd: /var/lib/tsuru/add-key
     user: ubuntu
+
+routers:
+    hipache:
+        type: hipache
+        domain: router.service.consul
+        redis-server: {{range service "redis"}}{{.Address}}:{{.Port}}{{else}}{{key "tsuru/routers/hipache/redis-server"}}{{end}}

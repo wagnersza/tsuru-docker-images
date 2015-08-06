@@ -41,7 +41,7 @@
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=always \
-      progrium/registrator -resync 3 consul://`docker-machine ip docker01`:8500
+      gliderlabs/registrator -resync 3 consul://`docker-machine ip docker01`:8500
   ```
   ```bash
   $ eval "$(docker-machine env docker02)"
@@ -59,7 +59,7 @@
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=always \
-      progrium/registrator consul://`docker-machine ip docker02`:8500
+      gliderlabs/registrator consul://`docker-machine ip docker02`:8500
   ```
   ```bash
   $ eval "$(docker-machine env docker03)"
@@ -77,7 +77,7 @@
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=always \
-      progrium/registrator consul://`docker-machine ip docker03`:8500
+      gliderlabs/registrator consul://`docker-machine ip docker03`:8500
   ```
 ## Start tsuru tears
   ```bash
@@ -97,9 +97,9 @@
   ```
 ### Router (multiple instances)
   ```bash
-  $ docker run -d --name router -h router -p 80:8080 wagnersza/router
+  $ docker run -d -e SERVICE_ID="router" --name router -h router -p 80:8080 wagnersza/router
   ```
 ### Tsuru API (multiple instances)
   ```bash
-  $ docker run -d --name api -h api -p 8000:8000 wagnersza/tsuru-api
+  $ docker run -d -e SERVICE_ID="tsuru-api" --name api -h api -p 8000:8000 wagnersza/tsuru-api
   ```
