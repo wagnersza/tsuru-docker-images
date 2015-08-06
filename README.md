@@ -81,7 +81,7 @@
   ```
 ## Start tsuru tears
   ```bash
-  eval $(docker-machine env --swarm docker01)
+  $ eval $(docker-machine env --swarm docker01)
   ```
 ### MongoDB (single instance)
   ```bash

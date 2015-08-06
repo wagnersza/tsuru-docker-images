@@ -14,5 +14,6 @@ ADD ./tsuru-defaults /etc/default/tsuru-server
 ADD ./tsuru.ctmpl /tmp/tsuru.ctmpl
 ADD ./run.sh /bin/run.sh
 RUN chmod +x /bin/run.sh
+RUN chown tsuru:tsuru /var/log/tsuru.log
 
 ENTRYPOINT /bin/run.sh
