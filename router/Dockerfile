@@ -8,15 +8,11 @@ RUN apt-get update && apt-get install -y node-hipache unzip libzmq-dev libevent-
 ADD https://github.com/hashicorp/consul-template/releases/download/v0.10.0/consul-template_0.10.0_linux_amd64.tar.gz /tmp/
 RUN tar -zxf /tmp/consul-template_0.10.0_linux_amd64.tar.gz -C /bin/ --strip-components=1 && rm -rf /tmp/consul-template_0.10.0_linux_amd64.tar.gz
 
-RUN virtualenv /tmp/circus && cd /tmp/circus && bin/pip install circus
 EXPOSE      8080
 
-VOLUME	/data/router
-
-ADD ./hipache.ctmpl /tmp/hipache.ctmpl
+ADD ./hipache.conf /etc/hipache.conf
 ADD ./redis.ctmpl /tmp/redis.ctmpl
-ADD ./hipache /etc/init.d/hipache
-RUN chmod +x /etc/init.d/hipache
-ADD ./circus.ini /tmp/circus.ini
+ADD ./run.sh /bin/run.sh
+RUN chmod +x /bin/run.sh
 
-ENTRYPOINT /tmp/circus/bin/circusd /tmp/circus.ini --log-output /var/log/circus.log
+ENTRYPOINT /bin/run.sh
