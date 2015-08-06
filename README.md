@@ -58,7 +58,7 @@
       progrium/consul -server -advertise `docker-machine ip docker02` -join `docker-machine ip consul01`
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
-      --restart=yes \
+      --restart=always \
       progrium/registrator consul://`docker-machine ip docker02`:8500
   ```
   ```bash
@@ -76,7 +76,7 @@
     progrium/consul -server -advertise `docker-machine ip docker03` -join `docker-machine ip consul01`
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
-      --restart=yes \
+      --restart=always \
       progrium/registrator consul://`docker-machine ip docker03`:8500
   ```
 ## Start tsuru tears
