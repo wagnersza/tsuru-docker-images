@@ -101,5 +101,5 @@
   ```
 ### Tsuru API (multiple instances)
   ```bash
-  $ docker run -d --name api -h api -p 8000:8000 -v /data/api:/data/api wagnersza/tsuru-api
+  $ docker run -d --name api -h api -p 8000:8000 wagnersza/tsuru-api
   ```
