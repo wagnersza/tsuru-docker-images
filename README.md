@@ -41,7 +41,7 @@
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=always \
-      gliderlabs/registrator -resync 3 consul://`docker-machine ip docker01`:8500
+      gliderlabs/registrator consul://`docker-machine ip docker01`:8500
   ```
   ```bash
   $ eval "$(docker-machine env docker02)"
@@ -93,7 +93,7 @@
   ```
 ### Docker Registry (multiple instances)
   ```bash
-  $ docker run -d --name registry -h registry -p 5000:5000 registry
+  $ docker run -d -e SERVICE_ID="registry" --name registry -h registry -p 5000:5000 registry
   ```
 ### Router (multiple instances)
   ```bash
