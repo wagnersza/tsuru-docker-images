@@ -1,4 +1,4 @@
-# Install tsuru with docker
+# Install tsuru with docker swarm
 
 ## Install consul machine bootstrap
   ```bash
