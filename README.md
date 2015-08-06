@@ -1,6 +1,6 @@
 # Install tsuru with docker
 
-## Install first consul machine
+## Install consul machine bootstrap
   ```bash
   $ docker-machine create --virtualbox-memory "512" --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox consul01
   $ eval "$(docker-machine env consul01)"
@@ -19,15 +19,14 @@
 
 ## Insltall swarm machines
   ```bash
-  $ docker-machine create --swarm --swarm-master --swarm-discovery consul://`docker-machine ip consul01`:8500/swarm --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox swarm-master
-  $ docker-machine create --swarm --swarm-discovery consul://`docker-machine ip consul01`:8500/swarm --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox docker01
+  $ docker-machine create --swarm --swarm-master --swarm-discovery consul://`docker-machine ip consul01`:8500/swarm --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox docker01
   $ docker-machine create --swarm --swarm-discovery consul://`docker-machine ip consul01`:8500/swarm --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox docker02
   $ docker-machine create --swarm --swarm-discovery consul://`docker-machine ip consul01`:8500/swarm --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox docker03
   ```
 ## Install consul cluster and registrator
 
   ```bash
-  $ eval "$(docker-machine env swarm-master)"
+  $ eval "$(docker-machine env docker01)"
   $ docker run -d -v /data/consul:/data/consul \
       --restart=always \
       -p 8300:8300 \
@@ -38,29 +37,11 @@
       -p 8400:8400 \
       -p 8500:8500 \
       -p 53:53/udp \
-      progrium/consul -server -advertise `docker-machine ip swarm-master` -join `docker-machine ip consul01`
+      progrium/consul -server -advertise `docker-machine ip docker01` -join `docker-machine ip consul01`
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=always \
-      progrium/registrator -resync 3 consul://`docker-machine ip swarm-master`:8500
-  ```
-  ```bash
-  $ eval "$(docker-machine env docker01)"
-  $ docker run -d -v /data/consul:/data/consul \
-    --restart=always \
-    -p 8300:8300 \
-    -p 8301:8301 \
-    -p 8301:8301/udp \
-    -p 8302:8302 \
-    -p 8302:8302/udp \
-    -p 8400:8400 \
-    -p 8500:8500 \
-    -p 53:53/udp \
-    progrium/consul -server -advertise `docker-machine ip docker01` -join `docker-machine ip consul01`
-
-  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock
-      --restart=yes \
-      progrium/registrator consul://`docker-machine ip docker01`:8500
+      progrium/registrator -resync 3 consul://`docker-machine ip docker01`:8500
   ```
   ```bash
   $ eval "$(docker-machine env docker02)"
@@ -100,7 +81,7 @@
   ```
 ## Start tsuru tears
   ```bash
-  eval $(docker-machine env --swarm swarm-master)
+  eval $(docker-machine env --swarm docker01)
   ```
 ### MongoDB (single instance)
   ```bash
