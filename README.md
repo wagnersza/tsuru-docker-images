@@ -41,6 +41,13 @@
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=always \
+      -e SERVICE_8300_IGNORE=true \
+      -e SERVICE_8301_IGNORE=true \
+      -e SERVICE_8302_IGNORE=true \
+      -e SERVICE_8400_IGNORE=true \
+      -e SERVICE_8500_IGNORE=true \
+      -e SERVICE_53_IGNORE=true \
+      -e SERVICE_3376_IGNORE=true \
       gliderlabs/registrator consul://`docker-machine ip docker01`:8500
   ```
   ```bash
@@ -59,6 +66,13 @@
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=always \
+      -e SERVICE_8300_IGNORE=true \
+      -e SERVICE_8301_IGNORE=true \
+      -e SERVICE_8302_IGNORE=true \
+      -e SERVICE_8400_IGNORE=true \
+      -e SERVICE_8500_IGNORE=true \
+      -e SERVICE_53_IGNORE=true \
+      -e SERVICE_3376_IGNORE=true \
       gliderlabs/registrator consul://`docker-machine ip docker02`:8500
   ```
   ```bash
@@ -77,6 +91,13 @@
 
   $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=always \
+      -e SERVICE_8300_IGNORE=true \
+      -e SERVICE_8301_IGNORE=true \
+      -e SERVICE_8302_IGNORE=true \
+      -e SERVICE_8400_IGNORE=true \
+      -e SERVICE_8500_IGNORE=true \
+      -e SERVICE_53_IGNORE=true \
+      -e SERVICE_3376_IGNORE=true \
       gliderlabs/registrator consul://`docker-machine ip docker03`:8500
   ```
 ## Start tsuru tears
