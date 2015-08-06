@@ -57,7 +57,7 @@
       -p 53:53/udp \
       progrium/consul -server -advertise `docker-machine ip docker02` -join `docker-machine ip consul01`
 
-  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock
+  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=yes \
       progrium/registrator consul://`docker-machine ip docker02`:8500
   ```
@@ -75,7 +75,7 @@
     -p 53:53/udp \
     progrium/consul -server -advertise `docker-machine ip docker03` -join `docker-machine ip consul01`
 
-  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock
+  $ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
       --restart=yes \
       progrium/registrator consul://`docker-machine ip docker03`:8500
   ```
@@ -85,11 +85,11 @@
   ```
 ### MongoDB (single instance)
   ```bash
-  $ docker run -d --name mongodb -h mongodb -p 27017:27017 mongo
+  $ docker run -d --name mongo -h mongo -p 27017:27017 mongo
   ```
 ### Redis (single instance)
   ```bash
-  $ docker run -d --name redis-master -h redis-master -p 6379:6379 redis
+  $ docker run -d --name redis -h redis -p 6379:6379 redis
   ```
 ### Docker Registry (multiple instances)
   ```bash
@@ -99,11 +99,7 @@
   ```bash
   $ docker run -d --name router -h router -p 80:8080 wagnersza/router
   ```
-### Gandalf (single instance)
-  ```bash
-  $ docker run -d --name gandalf -h gandalf -p 8000:8000 wagnersza/gandalf
-  ```
 ### Tsuru API (multiple instances)
   ```bash
-  $ docker run -d --name api -h api -p 8080:8080 -v /data/api:/data/api wagnersza/tsuru-api
+  $ docker run -d --name api -h api -p 8000:8000 -v /data/api:/data/api wagnersza/tsuru-api
   ```
