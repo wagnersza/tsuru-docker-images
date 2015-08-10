@@ -1,5 +1,5 @@
 listen: "0.0.0.0:8000"
-host: http://tsuru-api.service.consul:8000
+host: http://{{env "HOST_IP"}}.nip.io:8000
 debug: {{key "tsuru/debug" | regexReplaceAll "^$" "false" }}
 
 admin-team: {{key "tsuru/admin-team" | regexReplaceAll "^$" "admin" }}
