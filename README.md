@@ -1,4 +1,4 @@
-# Install tsuru with docker swarm
+# tsuru docker swarm deploy
 
 ## Install consul machine bootstrap
   ```bash
@@ -104,7 +104,7 @@
   $ docker run -d -e SERVICE_ID="tsuru-api" --name api -h api -p 8000:8000 wagnersza/tsuru-api
   ```
 
-# Install tsuru with docker
+# tsuru docker deploy
 ```bash
 $ docker-machine create --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox docker01
 $ docker-machine create --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --engine-opt dns-search=service.consul -d virtualbox docker02
@@ -112,7 +112,8 @@ $ docker-machine create --engine-opt dns=172.17.42.1 --engine-opt dns=8.8.8.8 --
 ```
 ```bash
 $ eval "$(docker-machine env docker01)"
-$ docker run -d -v /data/consul:/data/consul \
+$ docker run -d --name consul -v /data/consul:/data/consul \
+    -e HOST_IP=`docker-machine ip docker01` \
     --restart=always \
     -p 8300:8300 \
     -p 8301:8301 \
@@ -124,7 +125,7 @@ $ docker run -d -v /data/consul:/data/consul \
     -p 53:53/udp \
     progrium/consul -server -advertise `docker-machine ip docker01` -bootstrap
 
-$ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
+$ docker run -d --name registrator -v /var/run/docker.sock:/tmp/docker.sock \
     --restart=always \
     gliderlabs/registrator consul://`docker-machine ip docker01`:8500
 
@@ -133,7 +134,8 @@ $ docker run -d --name redis -h redis -p 6379:6379 redis
 ```
 ```bash
 $ eval "$(docker-machine env docker02)"
-$ docker run -d -v /data/consul:/data/consul \
+$ docker run -d --name consul -v /data/consul:/data/consul \
+    -e HOST_IP=`docker-machine ip docker02` \
     --restart=always \
     -p 8300:8300 \
     -p 8301:8301 \
@@ -145,7 +147,7 @@ $ docker run -d -v /data/consul:/data/consul \
     -p 53:53/udp \
     progrium/consul -server -advertise `docker-machine ip docker02` -join `docker-machine ip docker01`
 
-$ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
+$ docker run -d --name registrator -v /var/run/docker.sock:/tmp/docker.sock \
     --restart=always \
     gliderlabs/registrator consul://`docker-machine ip docker02`:8500
 
@@ -153,7 +155,8 @@ $ docker run -d -e SERVICE_ID="registry" --name registry -h registry -p 5000:500
 ```
 ```bash
 $ eval "$(docker-machine env docker03)"
-$ docker run -d -v /data/consul:/data/consul \
+$ docker run -d --name consul -v /data/consul:/data/consul \
+  -e HOST_IP=`docker-machine ip docker03` \
   --restart=always \
   -p 8300:8300 \
   -p 8301:8301 \
@@ -165,10 +168,16 @@ $ docker run -d -v /data/consul:/data/consul \
   -p 53:53/udp \
   progrium/consul -server -advertise `docker-machine ip docker03` -join `docker-machine ip docker01`
 
-$ docker run -d -v /var/run/docker.sock:/tmp/docker.sock \
+$ docker run -d --name registrator -v /var/run/docker.sock:/tmp/docker.sock \
     --restart=always \
     gliderlabs/registrator consul://`docker-machine ip docker03`:8500
 
-$ docker run -d -e SERVICE_ID="router" --name router -h router -p 80:8080 wagnersza/router
+$ docker run -d -e SERVICE_ID="router" --name router -h router -p 8080:8080 wagnersza/router
 $ docker run -d -e SERVICE_ID="tsuru-api" --name api -h api -p 8000:8000 wagnersza/tsuru-api
+```
+## Start RUNCHER server only for monitoring hosts
+
+```bash
+  $ eval "$(docker-machine env docker01)"
+  $ docker run -d -e SERVICE_ID="rancher-server" --name rancher-server --restart=always -p 8888:8080 rancher/server
 ```
