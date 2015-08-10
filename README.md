@@ -156,7 +156,6 @@ $ docker run -d -e SERVICE_ID="registry" --name registry -h registry -p 5000:500
 ```bash
 $ eval "$(docker-machine env docker03)"
 $ docker run -d --name consul -v /data/consul:/data/consul \
-  -e HOST_IP=`docker-machine ip docker03` \
   --restart=always \
   -p 8300:8300 \
   -p 8301:8301 \
@@ -173,7 +172,7 @@ $ docker run -d --name registrator -v /var/run/docker.sock:/tmp/docker.sock \
     gliderlabs/registrator consul://`docker-machine ip docker03`:8500
 
 $ docker run -d -e SERVICE_ID="router" --name router -h router -p 8080:8080 wagnersza/router
-$ docker run -d -e SERVICE_ID="tsuru-api" --name api -h api -p 8000:8000 wagnersza/tsuru-api
+$ docker run -d -e HOST_IP=`docker-machine ip docker03` -e SERVICE_ID="tsuru-api" --name api -h api -p 8000:8000 wagnersza/tsuru-api
 ```
 ## Start RUNCHER server only for monitoring hosts
 
